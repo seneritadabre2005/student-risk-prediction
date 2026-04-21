@@ -185,5 +185,26 @@ Senerita Dabre
 
 This project demonstrates how Machine Learning can be used to predict student performance and help in early identification of at-risk students.
 
----
->>>>>>> 7b2d7dde0ba9cceae0804692862d12da6aa4df04
+## 📥 How to Participate
+
+1. Fork this repository
+2. Clone your fork:
+   git clone https://github.com/YOUR_USERNAME/student-risk-prediction.git
+
+3. Generate predictions using your model
+
+4. Save your file as:
+   submissions/your_team_name.csv
+
+5. Format MUST be:
+   id,prediction
+   1,0
+   2,1
+   ...
+
+6. Commit and push:
+   git add .
+   git commit -m "Added predictions"
+   git push
+
+7. Create a Pull Request to the main repository
