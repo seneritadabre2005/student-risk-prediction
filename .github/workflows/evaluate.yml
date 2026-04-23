@@ -1,0 +1,28 @@
+name: Auto Update Leaderboard
+
+on:
+  push:
+    paths:
+      - 'submissions/*.csv'
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - run: pip install pandas scikit-learn
+
+    - run: python evaluation/evaluate.py
+
+    - run: |
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        git add evaluation/leaderboard.csv
+        git commit -m "Auto update leaderboard" || echo "No changes"
+        git push
