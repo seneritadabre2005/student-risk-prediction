@@ -213,8 +213,4 @@ This project demonstrates how Machine Learning can be used to predict student pe
 
 Click below to view latest leaderboard:
 
-👉 [View Leaderboard](## 🏆 Live Leaderboard
-
-Click below to view latest leaderboard:
-
 👉 [View Leaderboard](https://github.com/seneritadabre2005/student-risk-prediction/blob/main/evaluation/leaderboard.csv)
