@@ -217,4 +217,4 @@ Click below to view latest leaderboard:
 
 Click below to view latest leaderboard:
 
-👉 [View Leaderboard](https://github.com/YOUR_USERNAME/student-risk-prediction/blob/main/evaluation/leaderboard.csv))
+👉 [View Leaderboard](https://github.com/seneritadabre2005/student-risk-prediction/blob/main/evaluation/leaderboard.csv)
