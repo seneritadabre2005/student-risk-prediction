@@ -208,3 +208,13 @@ This project demonstrates how Machine Learning can be used to predict student pe
    git push
 
 7. Create a Pull Request to the main repository
+
+   ## 🏆 Live Leaderboard
+
+Click below to view latest leaderboard:
+
+👉 [View Leaderboard](## 🏆 Live Leaderboard
+
+Click below to view latest leaderboard:
+
+👉 [View Leaderboard](https://github.com/YOUR_USERNAME/student-risk-prediction/blob/main/evaluation/leaderboard.csv))
