@@ -60,18 +60,23 @@ for file in os.listdir(SUBMISSION_FOLDER):
             print(f"Error in {file}: {e}")
 
 # ---------------- CREATE LEADERBOARD ----------------
+# ---------------- CREATE LEADERBOARD ----------------
 leaderboard = pd.DataFrame(results)
 
 if not leaderboard.empty:
     leaderboard = leaderboard.sort_values(by="accuracy", ascending=False)
+    leaderboard.to_csv(LEADERBOARD_FILE, index=False)
 
-# Save CSV
-leaderboard.to_csv(LEADERBOARD_FILE, index=False)
+# ✅ ALWAYS READ FROM CSV (THIS IS THE FIX)
+if os.path.exists(LEADERBOARD_FILE):
+    leaderboard = pd.read_csv(LEADERBOARD_FILE)
+else:
+    leaderboard = pd.DataFrame(columns=["team", "accuracy"])
 
-# ---------------- CREATE HTML (WEB PAGE) ----------------
+# ---------------- CREATE HTML ----------------
 html_table = leaderboard.to_html(index=False)
 
-with open(HTML_FILE, "w") as f:
+with open("evaluation/leaderboard.html", "w", encoding="utf-8") as f:
     f.write(f"""
     <html>
     <head>
@@ -99,16 +104,13 @@ with open(HTML_FILE, "w") as f:
                 background-color: #4CAF50;
                 color: white;
             }}
-            tr:nth-child(even) {{
-                background-color: #f2f2f2;
-            }}
         </style>
     </head>
     <body>
-        <h1>🏆 Student Risk Prediction Leaderboard</h1>
+        <h1>Leaderboard</h1>
         {html_table}
     </body>
     </html>
     """)
 
-print("✅ Leaderboard updated (CSV + HTML)!")
+print("✅ Leaderboard updated (CSV → HTML linked)!")
