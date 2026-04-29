@@ -65,3 +65,10 @@ if not leaderboard.empty:
 leaderboard.to_csv(LEADERBOARD_FILE, index=False)
 
 print("✅ Leaderboard updated!")
+# Save CSV (already there)
+leaderboard.to_csv(LEADERBOARD_FILE, index=False)
+
+# 🆕 NEW: Save as HTML (WEB PAGE)
+leaderboard.to_html("evaluation/leaderboard.html", index=False)
+
+print("✅ Leaderboard updated!")

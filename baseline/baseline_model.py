@@ -44,4 +44,4 @@ submission = pd.DataFrame({
 # Save output
 submission.to_csv(OUTPUT_PATH, index=False)
 
-print("✅ Baseline predictions saved at:", OUTPUT_PATH)
+print("✅ Baseline predictions saved at:", OUTPUT_PATH) 
