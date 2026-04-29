@@ -2,11 +2,13 @@ import pandas as pd
 import os
 from sklearn.metrics import accuracy_score
 
+# ---------------- PATHS ----------------
 GROUND_TRUTH = "data/test_labels.csv"
 SUBMISSION_FOLDER = "submissions/"
 LEADERBOARD_FILE = "evaluation/leaderboard.csv"
+HTML_FILE = "evaluation/leaderboard.html"
 
-# Load ground truth
+# ---------------- LOAD GROUND TRUTH ----------------
 gt = pd.read_csv(GROUND_TRUTH)
 gt.columns = gt.columns.str.strip()
 
@@ -14,6 +16,7 @@ print("GT columns:", gt.columns.tolist())
 
 results = []
 
+# ---------------- PROCESS SUBMISSIONS ----------------
 for file in os.listdir(SUBMISSION_FOLDER):
     if file.endswith(".csv"):
         path = os.path.join(SUBMISSION_FOLDER, file)
@@ -21,13 +24,13 @@ for file in os.listdir(SUBMISSION_FOLDER):
         try:
             sub = pd.read_csv(path)
 
-            # DEBUG print
+            # Debug
             print(file, "columns:", sub.columns.tolist())
 
             # Clean column names
             sub.columns = sub.columns.str.strip()
 
-            # Check required columns
+            # Check format
             if "id" not in sub.columns or "prediction" not in sub.columns:
                 print(f"{file} skipped (wrong format)")
                 continue
@@ -40,9 +43,9 @@ for file in os.listdir(SUBMISSION_FOLDER):
             # Merge on ID
             merged = pd.merge(gt, sub, on="id")
 
-            # Final safety check
+            # Safety check
             if "risk" not in merged.columns:
-                print(f"{file} skipped (risk column missing in GT)")
+                print(f"{file} skipped (risk column missing)")
                 continue
 
             # Calculate accuracy
@@ -56,19 +59,56 @@ for file in os.listdir(SUBMISSION_FOLDER):
         except Exception as e:
             print(f"Error in {file}: {e}")
 
-# Create leaderboard
+# ---------------- CREATE LEADERBOARD ----------------
 leaderboard = pd.DataFrame(results)
 
 if not leaderboard.empty:
     leaderboard = leaderboard.sort_values(by="accuracy", ascending=False)
 
+# Save CSV
 leaderboard.to_csv(LEADERBOARD_FILE, index=False)
 
-print("✅ Leaderboard updated!")
-# Save CSV (already there)
-leaderboard.to_csv(LEADERBOARD_FILE, index=False)
+# ---------------- CREATE HTML (WEB PAGE) ----------------
+html_table = leaderboard.to_html(index=False)
 
-# 🆕 NEW: Save as HTML (WEB PAGE)
-leaderboard.to_html("evaluation/leaderboard.html", index=False)
+with open(HTML_FILE, "w") as f:
+    f.write(f"""
+    <html>
+    <head>
+        <title>Leaderboard</title>
+        <style>
+            body {{
+                font-family: Arial;
+                text-align: center;
+                background-color: #f4f4f4;
+            }}
+            h1 {{
+                color: #333;
+            }}
+            table {{
+                border-collapse: collapse;
+                margin: auto;
+                background: white;
+                box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            }}
+            th, td {{
+                border: 1px solid #ddd;
+                padding: 12px;
+            }}
+            th {{
+                background-color: #4CAF50;
+                color: white;
+            }}
+            tr:nth-child(even) {{
+                background-color: #f2f2f2;
+            }}
+        </style>
+    </head>
+    <body>
+        <h1>🏆 Student Risk Prediction Leaderboard</h1>
+        {html_table}
+    </body>
+    </html>
+    """)
 
-print("✅ Leaderboard updated!")
+print("✅ Leaderboard updated (CSV + HTML)!")
